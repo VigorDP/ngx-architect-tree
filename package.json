@@ -1,0 +1,33 @@
+{
+  "name": "ngx-architect-tree",
+  "version": "0.0.4",
+  "description": "angular 组织架构弹窗组件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "changelog": "conventional-changelog -p angular -i README.md -s"
+  },
+  "keywords": [
+    "组织架构弹窗组件",
+    "angular",
+    "ng-zerro-antd"
+  ],
+  "author": "风之化身",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@angular/forms": "^8.2.14",
+    "@delon/abc": "^8.8.0",
+    "@delon/form": "^8.8.0",
+    "@delon/theme": "^8.8.0",
+    "ng-zorro-antd": "^8.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyinchao/ngx-architect-tree.git"
+  },
+  "devDependencies": {
+    "conventional-changelog": "3.1.18"
+  }
+}

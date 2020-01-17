@@ -1,0 +1,43 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="nzTitle" [nzMaskClosable]="false" nzWidth="500"
+  (nzOnCancel)="handleClose()" (nzOnOk)="handleClose()">
+  <nz-tree [nzData]="data" nzShowLine [nzTreeTemplate]="nzTreeTemplate"> </nz-tree>
+</nz-modal>
+
+<ng-template #nzTitle>
+  <span>
+    {{ label }}管理
+  </span>
+  <button [ngStyle]="{marginLeft:'200px'}" nz-button
+    (click)="selectedRow={};action='add';addOrEditOrView(modalContent)">
+    <i nz-icon nzType="plus"></i>
+    <span>新建{{label}}</span>
+  </button>
+</ng-template>
+
+<ng-template #nzTreeTemplate let-node>
+  <span (contextmenu)="contextMenu($event, menu,node)">
+    {{ node.title }}
+  </span>
+</ng-template>
+
+<!-- 右键菜单 -->
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="addOrEditOrView(modalContent)">编辑</li>
+    <li nz-menu-item (click)="delete()">删除</li>
+  </ul>
+</nz-dropdown-menu>
+
+<!--新增部门-->
+<ng-template #modalContent>
+  <form nz-form se-container labelWidth="100">
+    <se [label]="'上级'+label" col="1" *ngIf="action==='add'">
+      <nz-tree-select name="tree" [nzNodes]="data" [nzPlaceHolder]="'请选择上级,不选则默认创建一级'+label"
+        [(ngModel)]="selectedRow.parentId" (ngModelChange)="onChange($event)">
+      </nz-tree-select>
+    </se>
+    <se [label]="label+'名称'" col="1" required>
+      <input nz-input placeholder="请输入" [(ngModel)]="selectedRow.name" name="name" />
+    </se>
+  </form>
+</ng-template>
