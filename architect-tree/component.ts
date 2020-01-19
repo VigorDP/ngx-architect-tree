@@ -130,6 +130,10 @@ export class ArchitectTreeComponent implements OnChanges {
 
   handleClose(): void {
     this.isVisible = false;
+    setTimeout(() => {
+      this.data=[]
+    }, 0)
+
     this.closeEvent.emit();
   }
 }

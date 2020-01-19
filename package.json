@@ -1,6 +1,6 @@
 {
   "name": "ngx-architect-tree",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "angular 组织架构弹窗组件",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 <nz-modal [(nzVisible)]="isVisible" [nzTitle]="nzTitle" [nzMaskClosable]="false" nzWidth="500"
   (nzOnCancel)="handleClose()" (nzOnOk)="handleClose()">
-  <nz-tree [nzData]="data" nzShowLine [nzTreeTemplate]="nzTreeTemplate"> </nz-tree>
+  <nz-tree [nzData]="data" nzExpandAll="true" nzShowLine [nzTreeTemplate]="nzTreeTemplate"> </nz-tree>
 </nz-modal>
 
 <ng-template #nzTitle>
