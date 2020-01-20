@@ -78,9 +78,6 @@ export class ArchitectTreeComponent implements OnChanges {
       this.selectedRow.id=this.activeNode.origin.key;
       this.selectedRow.parentId=this.activeNode.origin.parentId;
     }
-    if(this.action==='add'&&this.selectedRow.parentId===null){
-      this.selectedRow.parentId=0
-    }
     this.modalSrv.create({
       nzTitle: this.action === 'add' ? '新建' + this.label : '编辑' + this.label,
       nzContent: tpl,
@@ -88,7 +85,7 @@ export class ArchitectTreeComponent implements OnChanges {
       nzOnOk: () => {
         if (this.checkValid()) {
           return new Promise(resolve => {
-            this.saveApi(this.selectedRow).subscribe(res => {
+            this.saveApi({...this.selectedRow,parentId:this.selectedRow.parentId||0}).subscribe(res => {
               if (res.code === '0') {
                 resolve();
                 this.getData();
