@@ -15,18 +15,15 @@
 </ng-template>
 
 <ng-template #nzTreeTemplate let-node>
-  <span (contextmenu)="contextMenu($event, menu,node)">
+  <span (mouseenter)="handleMouseEnter($event)">
     {{ node.title }}
   </span>
+  <div *ngIf="node.title===activeMenuTitle.trim()" style="display: inline-block">
+    <span (click)="addOrEditOrView(modalContent,node)"
+      style="display: inline-block;margin: 0 10px;text-decoration: underline;color:blue;">编辑</span>
+    <span (click)="delete(node)" style="text-decoration: underline;color:red">删除</span>
+  </div>
 </ng-template>
-
-<!-- 右键菜单 -->
-<nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu>
-    <li nz-menu-item (click)="addOrEditOrView(modalContent)">编辑</li>
-    <li nz-menu-item (click)="delete()">删除</li>
-  </ul>
-</nz-dropdown-menu>
 
 <!--新增部门-->
 <ng-template #modalContent>

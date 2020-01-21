@@ -6,9 +6,8 @@ import {
   OnChanges,
   ChangeDetectorRef,
   TemplateRef,
-  ViewChild,
 } from '@angular/core';
-import { NzMessageService, NzModalService, NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { data, selectedRow } from './interface';
 
 @Component({
@@ -28,10 +27,9 @@ export class ArchitectTreeComponent implements OnChanges {
   data=data
   isVisible = false;
   selectedRow = selectedRow;
-  activeNode
   action='add'
-
-  constructor(private msg: NzMessageService,private nzContextMenuService: NzContextMenuService, public modalSrv: NzModalService, private cdr: ChangeDetectorRef) {}
+  activeMenuTitle=''
+  constructor(private msg: NzMessageService,public modalSrv: NzModalService, private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(e): any {
     this.isVisible = e && e.show && e.show.currentValue;
@@ -41,12 +39,6 @@ export class ArchitectTreeComponent implements OnChanges {
 
   onChange(e){
     selectedRow.parentId=e
-  }
-
-  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent,node): void {
-    this.action='edit'
-    this.activeNode=node;
-    this.nzContextMenuService.create($event, menu);
   }
 
   getData(): any {
@@ -72,11 +64,11 @@ export class ArchitectTreeComponent implements OnChanges {
     return result;
   }
 
-  addOrEditOrView(tpl: TemplateRef<{}>): any {
-    if(this.activeNode&&this.action==='edit'){
-      this.selectedRow.name=this.activeNode.origin.title;
-      this.selectedRow.id=this.activeNode.origin.key;
-      this.selectedRow.parentId=this.activeNode.origin.parentId;
+  addOrEditOrView(tpl: TemplateRef<{}>,node): any {
+    if(this.action==='edit'){
+      this.selectedRow.name=node.origin.title;
+      this.selectedRow.id=node.origin.key;
+      this.selectedRow.parentId=node.origin.parentId;
     }
     this.modalSrv.create({
       nzTitle: this.action === 'add' ? '新建' + this.label : '编辑' + this.label,
@@ -92,7 +84,6 @@ export class ArchitectTreeComponent implements OnChanges {
               } else {
                 resolve(false);
               }
-              this.activeNode=null
             });
           });
         } else {
@@ -111,13 +102,13 @@ export class ArchitectTreeComponent implements OnChanges {
     return true;
   }
 
-  delete(): any {
+  delete(node): any {
     this.modalSrv.confirm({
       nzTitle: '是否确定删除该项？',
       nzOkType: 'danger',
       nzOnOk: () => {
         this.deleteApi({
-          id: this.activeNode.origin.key
+          id: node.origin.key
         }).subscribe(() => {
           this.getData();
         });
@@ -129,8 +120,13 @@ export class ArchitectTreeComponent implements OnChanges {
     this.isVisible = false;
     setTimeout(() => {
       this.data=[]
+      this.activeMenuTitle=''
     }, 0)
-
     this.closeEvent.emit();
+  }
+
+  handleMouseEnter(e){
+    this.action='edit'
+    this.activeMenuTitle=e.target.innerHTML
   }
 }
